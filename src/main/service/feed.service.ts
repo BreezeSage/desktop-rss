@@ -13,14 +13,20 @@ export const parser: Parser<CustomFeed, CustomItem> = new Parser({
 })
 
 class FeedService {
-  async append(feedUrl: string): Promise<void> {
-    if (this.has(feedUrl)) return
+  async append(feedUrl: string): Promise<boolean> {
+    if (this.has(feedUrl)) return true
 
-    const feed = await parser.parseURL(feedUrl)
-    await db.update(() => {
-      db.data.feeds = db.chain.get('feeds').concat(feed).value()
-    })
-    await db.write()
+    try {
+      const feed = await parser.parseURL(feedUrl)
+      await db.update(() => {
+        db.data.feeds = db.chain.get('feeds').concat(feed).value()
+      })
+      await db.write()
+      return true
+    } catch (error) {
+      console.log('parser error :', error)
+      return false
+    }
   }
 
   async delete(name: string): Promise<void> {
@@ -53,7 +59,7 @@ class FeedService {
         if (!el.uid) {
           el.uid = nanoid()
         }
-        if (!el.content && el['content:encoded']) {
+        if (el['content:encoded']) {
           el.content = el['content:encoded']
         }
         if (!el.summary && el.contentSnippet) {

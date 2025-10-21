@@ -7,7 +7,7 @@ export enum ChannelName {
   getChache = 'get chache'
 }
 
-export type CustomFeed = { author: string; uid: string }
+export type CustomFeed = { lastBuildDate: string; author: string; uid: string }
 export type CustomItem = { uid: string }
 export type Feed = Output<CustomItem> & CustomFeed
 export type Blog = Item & CustomItem

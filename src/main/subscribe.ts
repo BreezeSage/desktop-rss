@@ -7,10 +7,13 @@ export function createSubscribe(): void {
   ipcMain.on('ping', () => console.log('pong'))
 
   // 添加 RSS 订阅
-  ipcMain.handle(ChannelName.feed_append, (_e: IpcMainInvokeEvent, feedUrl: string) => {
-    console.log('添加订阅：', feedUrl)
-    return feed.append(feedUrl)
-  })
+  ipcMain.handle(
+    ChannelName.feed_append,
+    async (_e: IpcMainInvokeEvent, feedUrl: string): Promise<boolean> => {
+      console.log('添加订阅：', feedUrl)
+      return await feed.append(feedUrl)
+    }
+  )
 
   // 获取所有 RSS 订阅内容
   ipcMain.handle(ChannelName.feed_get_all, () => {

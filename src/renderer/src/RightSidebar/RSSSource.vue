@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { AiOutlineCheck, AiOutlineImport } from 'vue-icons-plus/ai'
+import { AiOutlineImport, AiOutlineCheckCircle } from 'vue-icons-plus/ai'
 import { useStore } from '../store'
 import { ref } from 'vue'
+import dayjs from 'dayjs'
 
+// <AiOutlineCheckCircle />
 const store = useStore()
 const rss = ref<string>('')
 
@@ -10,6 +12,11 @@ const appendRSS = (): void => {
   if (rss.value?.trim()) {
     store.appendFeed(rss.value)
   }
+}
+
+function transformLastBuildDate(time: string): string {
+  const date = dayjs(time)
+  return date.format('YYYY年 MMM D日 ddd h:mm A')
 }
 
 const setFeed = (feedId: string): void => {
@@ -28,28 +35,13 @@ const setFeed = (feedId: string): void => {
     </div>
     <ul>
       <li v-for="[key, value] in store.feedMap" :key="key" @click="setFeed(value.uid)">
+        <span class="right">
+          <AiOutlineCheckCircle v-if="store.feedId === value.uid" :size="18" />
+        </span>
         <div class="left">
           <div>{{ value.title }}</div>
+          <span>最新更新：{{ transformLastBuildDate(value.lastBuildDate) }}</span>
           <div>{{ value.link }}</div>
-        </div>
-        <span v-if="store.feedId === value.uid" class="right"><AiOutlineCheck :size="18" /></span>
-      </li>
-      <li>
-        <div class="left">
-          <div>美团技术团队</div>
-          <div>https://tech.meituan.com/feed/</div>
-        </div>
-      </li>
-      <li>
-        <div class="left">
-          <div>土木坛子</div>
-          <div>https://tumutanzi.com/feed</div>
-        </div>
-      </li>
-      <li>
-        <div class="left">
-          <div>张鑫旭-鑫空间-鑫生活</div>
-          <div>https://www.zhangxinxu.com/wordpress/feed/</div>
         </div>
       </li>
     </ul>
@@ -101,11 +93,14 @@ const setFeed = (feedId: string): void => {
   }
   ul {
     list-style: none;
+    padding: 8px 15px;
     li {
       padding: 10px 25px;
       cursor: pointer;
       border-radius: 0;
       display: flex;
+      border-radius: 8px;
+      margin-bottom: 4px;
       &:nth-child(odd) {
         background-color: rgb(240, 240, 240);
       }

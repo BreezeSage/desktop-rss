@@ -2,7 +2,7 @@
   <div class="control-button-group">
     <RouterLink to="/rss-source">
       <div :class="['setting-or-list', route.path !== '/article' ? 'active' : '']">
-        <AiOutlineSetting :size="15" />
+        <AiOutlineWindows :size="15" />
       </div>
     </RouterLink>
     <RouterLink to="/article">
@@ -13,9 +13,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { AiOutlineAlignLeft, AiOutlineSetting } from 'vue-icons-plus/ai'
+import { AiOutlineAlignLeft, AiOutlineWindows } from 'vue-icons-plus/ai'
 import { useRoute } from 'vue-router'
-
+// <AiOutlineUser /> <AiOutlineWindows />
 const route = useRoute()
 </script>
 <style lang="less" scoped>

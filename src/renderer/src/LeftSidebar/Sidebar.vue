@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { useStore } from '../store'
 import { Blog } from '../../../preload/types'
+import dayjs from 'dayjs'
 
 const store = useStore()
 
 function readBlog(blog: Blog): void {
   store.setBlogId(blog.uid)
+}
+
+function transformLastBuildDate(time: string | undefined): string {
+  const date = dayjs(time)
+  return date.format('YYYY MMMD号 ddd h:mm A')
 }
 </script>
 
@@ -17,8 +23,8 @@ function readBlog(blog: Blog): void {
       :class="store.blogId === blog.uid ? 'active' : ''"
       @click="readBlog(blog)"
     >
-      <h4>{{ blog.title }}</h4>
-      <span class="pub-date">{{ blog.pubDate }}</span>
+      <h4>· {{ blog.title }}</h4>
+      <span class="pub-date">{{ transformLastBuildDate(blog.pubDate) }}</span>
       <br />
       <span class="ellipsis-multi">{{ blog.summary }}</span>
     </li>

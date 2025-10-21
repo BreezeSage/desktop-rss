@@ -1,22 +1,26 @@
 import './assets/main.less'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import { createPinia } from 'pinia'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import { createApp } from 'vue'
+
 import Article from './RightSidebar/Article.vue'
 import Setting from './LeftSidebar/Setting.vue'
 import RSSSource from './RightSidebar/RSSSource.vue'
 import Mail from './RightSidebar/Mail.vue'
-
-import { createApp } from 'vue'
 import App from './App.vue'
 import Layout from './Layout.vue'
 import Hitokoto from './RightSidebar/Hitokoto.vue'
 import Sidebar from './LeftSidebar/Sidebar.vue'
 
+dayjs.locale('zh-cn')
+
 const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/hitokoto',
+    redirect: '/article',
     children: [
       {
         path: 'hitokoto',

@@ -1,9 +1,11 @@
 <template>
-  <article ref="articleRef" class="scroll-container">
-    <h2>{{ store.blog?.title }}</h2>
-    <a v-if="store.blog?.link" :href="store.blog?.link" target="_blank">{{ store.blog?.link }}</a>
-    <div v-html="store.blog?.content"></div>
-  </article>
+  <div class="article-page">
+    <article ref="articleRef" class="scroll-container">
+      <h2>{{ store.blog?.title }}</h2>
+      <a v-if="store.blog?.link" :href="store.blog?.link" target="_blank">{{ store.blog?.link }}</a>
+      <div v-html="store.blog?.content"></div>
+    </article>
+  </div>
 </template>
 <script setup lang="ts">
 import { useStore } from '../store'
@@ -20,11 +22,15 @@ watch(
 )
 </script>
 <style lang="less" scoped>
-article {
+.article-page {
   flex: 1;
-  overflow: auto;
-  padding: 0 24px 0 24px;
+  padding: 0 0 24px 0;
   height: calc(100vh - var(--drag-height));
+}
+article {
+  height: 100%;
+  padding: 0 24px 0 24px;
+  overflow: auto;
   h1 {
     cursor: pointer;
     &:hover {

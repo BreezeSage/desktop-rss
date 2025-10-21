@@ -48,7 +48,8 @@ export const useStore = defineStore('rss', {
       bid && (this.blogId = bid)
     },
     async appendFeed(feedUrl: string) {
-      await invoke(ChannelName.feed_append, feedUrl)
+      const result = await invoke(ChannelName.feed_append, feedUrl)
+      if (!result) alert('解析错误')
       await this.initialStore()
     },
     saveChache() {
