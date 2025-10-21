@@ -1,6 +1,6 @@
 {
   "name": "desktop-rss-app",
-  "version": "1.0.0",
+  "version": "1.3.2",
   "description": "A desktop software for subscribing RSS",
   "main": "./out/main/index.js",
   "author": "18267094443@163.com",
