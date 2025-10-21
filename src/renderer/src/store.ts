@@ -6,7 +6,6 @@ interface State {
   feedMap: Map<string, Feed>
   feedId: string
   blogMap: Map<string, Blog>
-  blogArray: Blog[]
   blogId: string
 }
 
@@ -18,13 +17,15 @@ export const useStore = defineStore('rss', {
       feedMap: new Map(),
       feedId: '',
       blogMap: new Map(),
-      blogArray: [],
       blogId: ''
     }
   },
   getters: {
     blog: (state) => {
       return state.blogMap.get(state.blogId)
+    },
+    blogArray: (state) => {
+      return state.feedMap.get(state.feedId)?.items
     }
   },
   actions: {
@@ -35,7 +36,7 @@ export const useStore = defineStore('rss', {
       feeds.forEach((feed) => {
         this.feedMap.set(feed.uid, feed)
         const blogs = feed.items as Blog[]
-        this.blogArray = blogs
+        // this.blogArray = blogs
         blogs.forEach((blog) => {
           blog.content = sanitizeAndProcessHTML(blog.content || '<h1>404</h1>')
           this.blogMap.set(blog.uid, blog)
@@ -48,6 +49,7 @@ export const useStore = defineStore('rss', {
     },
     async appendFeed(feedUrl: string) {
       await invoke(ChannelName.feed_append, feedUrl)
+      await this.initialStore()
     },
     saveChache() {
       invoke(ChannelName.setChache, this.feedId, this.blogId)

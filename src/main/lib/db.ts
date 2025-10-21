@@ -2,11 +2,6 @@ import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 import { Feed, Chache } from '../../preload/types'
 import lodash from 'lodash'
-import { join } from 'node:path'
-import { app } from 'electron'
-
-// - Feed
-// |----- Blog
 
 type Data = {
   feeds: Feed[]
@@ -30,11 +25,7 @@ const dbPath = 'db.json'
 const adapter = new JSONFile<Data>(dbPath)
 
 export const db = new LowWithLodash(adapter, defaultData)
-db.read()
-  .then((res) => {
-    console.log(res)
-  })
-  .catch(console.error)
+db.read().catch(console.error)
 
 // Instead of db.data use db.chain to access lodash API
 // const post = db.chain.get('posts').find({ id: 1 }).value() // Important: value() must be called to execute chain

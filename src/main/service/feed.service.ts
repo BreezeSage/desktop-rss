@@ -31,7 +31,6 @@ class FeedService {
       })
       .value()
     await db.write()
-    console.log(db.data.feeds)
   }
 
   get(name: string): Feed {
@@ -47,14 +46,14 @@ class FeedService {
   getAll(): Feed[] {
     // 读取订阅内容的时候，需要处理一下各个源的解析结果
     db.data.feeds.forEach((feed) => {
-      if (feed.uid) {
+      if (!feed.uid) {
         feed.uid = nanoid()
       }
       feed.items.forEach((el) => {
         if (!el.uid) {
           el.uid = nanoid()
         }
-        if (el['content:encoded']) {
+        if (!el.content && el['content:encoded']) {
           el.content = el['content:encoded']
         }
         if (!el.summary && el.contentSnippet) {

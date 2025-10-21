@@ -8,7 +8,8 @@ export function createSubscribe(): void {
 
   // 添加 RSS 订阅
   ipcMain.handle(ChannelName.feed_append, (_e: IpcMainInvokeEvent, feedUrl: string) => {
-    feed.append(feedUrl)
+    console.log('添加订阅：', feedUrl)
+    return feed.append(feedUrl)
   })
 
   // 获取所有 RSS 订阅内容

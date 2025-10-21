@@ -1,7 +1,7 @@
 <template>
   <article ref="articleRef" class="scroll-container">
-    <h1 @click="jumpToGuide">{{ store.blogId }}</h1>
     <h2>{{ store.blog?.title }}</h2>
+    <a v-if="store.blog?.link" :href="store.blog?.link" target="_blank">{{ store.blog?.link }}</a>
     <div v-html="store.blog?.content"></div>
   </article>
 </template>
@@ -11,10 +11,6 @@ import { ref, watch } from 'vue'
 
 const articleRef = ref<HTMLDivElement>()
 const store = useStore()
-const jumpToGuide = (): void => {
-  const url = store.blog?.link
-  url && window.open(url)
-}
 
 watch(
   () => store.blogId,

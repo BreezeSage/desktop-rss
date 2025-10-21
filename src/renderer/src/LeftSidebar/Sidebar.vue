@@ -20,14 +20,14 @@ function readBlog(blog: Blog): void {
       <h4>{{ blog.title }}</h4>
       <span class="pub-date">{{ blog.pubDate }}</span>
       <br />
-      <span>{{ blog.summary }}</span>
+      <span class="ellipsis-multi">{{ blog.summary }}</span>
     </li>
   </ul>
 </template>
 <style lang="less" scoped>
 ul {
   list-style: none;
-  padding: 0 12px 18px 12px;
+  padding: 8px 12px 18px 12px;
   li {
     transition: all 0.02s;
     border-radius: 7px;
